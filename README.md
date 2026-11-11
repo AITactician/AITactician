@@ -1,65 +1,34 @@
-<div align="center">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/header-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/header-light.svg">
+  <img alt="Tyler Wayne" src="assets/header-light.svg">
+</picture>
 
-# Hey, I'm Twayne 👋
+I build and run AI agent systems on self-hosted infrastructure, and measure before I decide. I work under the [AITactician](https://github.com/AITactician) name.
 
-**AI-first builder · solo entrepreneur · homelab operator**
+## Recent measured work
 
-I ship products and automation with natural language at the wheel — AI agents write the code,
-rigorous pipelines keep it honest.
+Each result is from October 2026. The full problem, decision, evaluation and number for each is on the [AITactician page](https://github.com/AITactician).
 
-[![GitHub](https://img.shields.io/badge/GitHub-AITactician-181717?logo=github)](https://github.com/AITactician)
-[![Org](https://img.shields.io/badge/Org-TWayneLabs-0A66C2?logo=githubsponsors&logoColor=white)](https://github.com/TWayneLabs)
-![Location](https://img.shields.io/badge/Base-Phoenix%2C%20AZ-orange)
+- **CI bill:** GitHub Actions overage was $21.55 in October. Merging many small jobs into one job per workflow cut one workflow from $0.108 a run to 0.67–1.33 Linux-equivalent minutes. Estimated monthly use now fits the free 3,000 minutes.
+- **Security scanning:** Free scanners matched 1 of 15 CodeQL alerts, so the write-up names that gap. The paid tier costs about $49 per committer per month. I chose a free baseline, $0 extra.
+- **Agent web search:** 2,021 searches in 4.27 days. Five providers on 20 queries, and no pairwise gap was significant, so availability and price chose the route. About $10 a month.
 
-</div>
+## How I work
 
----
+```mermaid
+flowchart LR
+    A[Plan] --> B[Agents write the change]
+    B --> C[Signed commit, secret scan, required checks]
+    C --> D[Review and merge]
+    D --> E[Receipt with the measured result]
+```
 
-## 🚀 What I build
+Agents write most of the code. Every change goes through the same gates, and each piece of work leaves a receipt with what was measured and what was not.
 
-- **AI agent systems** — multi-agent teams (research, content, ops) running on self-hosted
-  infrastructure, orchestrated from a single M4 Max cockpit
-- **Market intelligence tools** — trading analytics, arbitrage scanners, and prediction-market
-  tooling ([Polytrader](https://github.com/AITactician/Polytrader),
-  [Trading-Platform](https://github.com/AITactician/Trading-Platform))
-- **Automation everywhere** — if I do it twice, an agent does it the third time
+## Where the work lives
 
-## 🏗️ How I work
+Most of my code is private. I publish write-ups first and fresh public extracts only after a secret and personal-data check.
 
-**Vibe coding, engineered.** Natural language → AI agents → shipped code — but wrapped in the
-discipline of a DevOps pipeline:
-
-- Every commit passes a **gitleaks secrets gate** before an AI writes the message and ships it
-- Dotfiles + machine config fully reproducible via **chezmoi** (secrets live in Proton Pass,
-  never in git)
-- Infrastructure as code: **Ansible + Terraform + Docker Compose** across the fleet
-
-## 🖥️ The lab
-
-A 5-node homelab doing real work (IaC in [TWayneLabs](https://github.com/TWayneLabs)):
-
-| Node | Role |
-|------|------|
-| `ai-01` · RTX 3090 | Local LLM inference (Ollama), agent runtime, MCP gateway |
-| `pi-watch` | Observability — Grafana · Prometheus · Loki · AdGuard |
-| `pi-auto` | Home Assistant + n8n automation |
-| `zb1` / `zb2` | Storage (Immich, OpenCloud) · services hub (Authentik, NetBox, LiteLLM, n8n) |
-
-UniFi network, VLAN-segmented, Tailscale mesh, CrowdSec at the edge.
-
-## 🧰 Stack
-
-![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white)
-![Next.js](https://img.shields.io/badge/-Next.js-000000?logo=nextdotjs)
-![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/-FastAPI-009688?logo=fastapi&logoColor=white)
-![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=docker&logoColor=white)
-![Ansible](https://img.shields.io/badge/-Ansible-EE0000?logo=ansible)
-![Terraform](https://img.shields.io/badge/-Terraform-844FBA?logo=terraform&logoColor=white)
-![Claude](https://img.shields.io/badge/-Claude-D97757?logo=anthropic&logoColor=white)
-
-<div align="center">
-
-![Stats](https://github-readme-stats.vercel.app/api?username=AITactician&show_icons=true&theme=tokyonight&hide_border=true&count_private=true)
-
-</div>
+- [AITactician](https://github.com/AITactician): case studies
+- [TWayneLabs](https://github.com/TWayneLabs): infrastructure as code for the lab
