@@ -11,7 +11,7 @@ I build and run AI agent systems on self-hosted infrastructure, and measure befo
 These results are from October 2026, and each is marked where it is an estimate. The full problem, decision, evaluation and number for each is on the [AITactician page](https://github.com/AITactician).
 
 - **CI bill:** GitHub Actions overage was $21.55 in October through the 22nd. Merging many small jobs into one job per workflow cut one workflow from $0.108 a run (18 Linux-equivalent minutes) to 0.67–1.33 on most commits. About 28% of commits, those touching macOS files, still cost more. Estimated monthly use now fits the free 3,000 minutes.
-- **Security scanning:** Semgrep matched 1 of 15 CodeQL alerts, so the write-up names that gap. The paid tier costs about $49 per committer per month. I recommended a free baseline, $0 extra.
+- **Security scanning:** Semgrep matched 1 of 15 CodeQL alerts, so the write-up names that gap. The paid tier costs about $49 per committer per month. The free baseline costs $0 extra.
 - **Agent web search:** 2,021 searches in 4.27 days. Five providers on 20 queries, and no pairwise gap was significant, so availability and price chose the route. About $10 a month, an estimate.
 
 ## How I work
