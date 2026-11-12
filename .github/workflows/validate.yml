@@ -1,0 +1,70 @@
+# Kit starter (ai-config#33): copy to .github/workflows/validate.yml in a repository that has no
+# CI yet; templates/scaffold.sh copies it into every new project. It runs the repository's own
+# pre-commit hooks and reports one status, `delivery-gate`, the only check the governed-main
+# ruleset requires. Add the project's build and tests as jobs and list them under
+# delivery-gate's `needs`.
+#
+# Report first, block later: a new check (lint, types, dead code, a PR-title rule) starts in the
+# `report` job, which delivery-gate does not need, so its findings show without blocking a merge.
+# Move it into a gated job on a dated step once its baseline in this repository is 0.
+name: Validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# A newer push to the same pull request cancels its superseded run; pushes to main all finish.
+concurrency:
+  group: validate-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  hooks:
+    name: Pre-commit hooks
+    runs-on: ubuntu-slim
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('.pre-commit-config.yaml') }}
+      - run: python -m pip install --disable-pip-version-check --no-input "pre-commit==4.6.2"
+      - run: pre-commit run --show-diff-on-failure --color=always --all-files
+
+  report:
+    name: Report-only checks
+    runs-on: ubuntu-slim
+    timeout-minutes: 10
+    # Findings here never block; delivery-gate does not list this job.
+    continue-on-error: true
+    steps:
+      - run: echo "No report-only checks yet. Add each new check here first."
+
+  delivery-gate:
+    name: delivery-gate
+    needs: [hooks]
+    if: always()
+    runs-on: ubuntu-slim
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Require every gated job to have succeeded
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: |
+          printf '%s\n' "$NEEDS_JSON" | jq -r 'to_entries[] | "\(.key): \(.value.result)"'
+          failed="$(printf '%s' "$NEEDS_JSON" | jq -r 'to_entries[] | select(.value.result != "success") | .key')"
+          if [ -n "$failed" ]; then
+            echo "::error::delivery-gate failed; these jobs did not succeed: $(printf '%s' "$failed" | tr '\n' ' ')"
+            exit 1
+          fi
